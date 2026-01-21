@@ -1,0 +1,8 @@
+{
+    "customInstructions": [
+        "Always follow the ARC Protocol in the .agent/workflows/ directory.",
+        "Maintain the .arc/ directory as the single source of truth.",
+        "Update the dashboard using .agent/dashboard/update.py before complex tasks."
+    ],
+    "preferredModel": "claude-3-5-sonnet-latest"
+}

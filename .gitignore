@@ -1,0 +1,22 @@
+# ARC Protocol Files
+.arc/planning/phase-*-CONTEXT.md
+.arc/planning/phase-*-PLAN.md
+.arc/planning/phase-*-VERIFICATION.md
+.arc/planning/phase-*-FIXES.md
+.arc/state/
+arc_workflow_state.json
+
+# Environment
+venv/
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# OS Files
+.DS_Store
+Thumbs.db
