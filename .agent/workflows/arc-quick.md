@@ -10,8 +10,9 @@ Quick task: [description provided by user]
 ## Pre-Task: Load Context
 
 **Read these files FIRST:**
-1. `.arc/CONTRACTS.md` - Follow existing conventions
-2. `.arc/STATE.md` - Avoid conflicts
+1. `.arc/PROJECT.md` - Maintain vision alignment
+2. `.arc/CONTRACTS.md` - Follow existing conventions
+3. `.arc/STATE.md` - Avoid conflicts
 
 ## Process
 

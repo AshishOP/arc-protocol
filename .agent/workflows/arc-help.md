@@ -2,7 +2,7 @@
 description: Show help and available ARC commands
 ---
 
-# ARC Workflow Commands
+# ARC Workflow Commands & System Guide
 
 ## Core Workflow (in order)
 
@@ -11,29 +11,37 @@ description: Show help and available ARC commands
 | `/arc-new` | Initialize a new project (defines goals, creates roadmap) |
 | `/arc-discuss` | Capture preferences before planning a phase (optional) |
 | `/arc-plan` | Create detailed task plan for a phase |
-| `/arc-execute` | Execute the plan, task by task |
+| `/arc-execute` | Execute the plan, task by task (can delegate to subagents) |
 | `/arc-verify` | Verify the completed phase works |
 
-## Session Management
+## Session & Roadmap Management
 
 | Command | Purpose |
 |---------|---------|
-| `/arc-pause` | Save state before leaving |
+| `/arc-pause` | Save session state before leaving |
 | `/arc-resume` | Load context when starting a new session |
 | `/arc-status` | Quick view of current progress |
-
-## Roadmap Management
-
-| Command | Purpose |
-|---------|---------|
 | `/arc-add-phase` | Insert a new phase into the roadmap |
 
-## Special Workflows
+## Advanced Orchestration (Multi-Agent)
 
 | Command | Purpose |
 |---------|---------|
-| `/arc-map` | Analyze existing codebase (brownfield projects) |
 | `/arc-quick` | Small ad-hoc tasks outside phase structure |
+| `/arc-map` | Analyze existing codebase (brownfield projects) |
+| `/arc-multi-agent` | Orchestrate true parallel subagents (Recommended) |
+| `/arc-dual-agent` | Coordinate two separate AI instances (Advanced) |
+| `/arc-health` | Check ARC system health and configuration |
+
+## The Multi-Agent System
+
+ARC v2.0 introduces **True Parallelism** with specialized subagents.
+
+### Key Concepts:
+- **Orchestrator (Main AI):** Manages the workflow, makes strategic decisions, and delegates tasks.
+- **Subagents (Workers):** Background processes executing tactical tasks (Researcher, Coder, Auditor, Architect, Debugger).
+- **Dashboard:** A Textual TUI to monitor all agents in real-time.
+- **Model:** Subagents use the `flash` model (recommended for speed and quota efficiency).
 
 ## Typical Flow
 
@@ -45,7 +53,7 @@ New Session:     /arc-resume → continue where you left off
 End of Day:      /arc-pause
 ```
 
-## Key Files
+## Key Files (Single Source of Truth)
 
 | File | Purpose |
 |------|---------|
@@ -57,7 +65,9 @@ End of Day:      /arc-pause
 
 ## Tips
 
-- Always run `/arc-pause` before ending a session
-- Use `/arc-quick` for small fixes, not new features
-- `/arc-discuss` is optional but helps with UI-heavy phases
-- Check CONTRACTS.md before adding new endpoints or models
+- Always run `/arc-pause` before ending a session.
+- Use `/arc-quick` for small fixes, not new features.
+- `/arc-discuss` is optional but helps with UI-heavy phases.
+- Check `CONTRACTS.md` before adding new endpoints or models.
+- **Delegate tactical tasks** to subagents using `arc_spawn_agent` via the Orchestrator.
+- Keep the dashboard (`./dash`) open in a separate terminal.

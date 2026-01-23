@@ -7,6 +7,13 @@ I want to understand this existing codebase before making changes.
 0. **Dashboard Sync**:
    - Run `./venv/bin/python3 .agent/dashboard/update.py agent="Architect" status="WORKING" task="Mapping Codebase" main_status="ANALYZING" main_action="Codebase Discovery"`
 
+## Pre-Mapping: Load All Context
+
+**MANDATORY - Read these files FIRST:**
+1. `.arc/PROJECT.md` - Understand the vision
+2. `.arc/CONTRACTS.md` - Check for any existing standards
+3. `.arc/STATE.md` - Check current session state
+
 ## Codebase Analysis Process
 
 1. **Scan the project structure:**

@@ -1,26 +1,30 @@
 # Contributing to ARC Protocol
 
-First off, thank you for considering contributing to ARC! It's people like you that make ARC such a great tool.
+We welcome contributions to make the ARC Protocol the most disciplined and powerful AI workflow system in the world.
 
-## How Can I Contribute?
+## 🛠️ How You Can Help
 
-### Reporting Bugs
-* Check if the bug has already been reported in the Issues tab.
-* If not, open a new issue using the Bug Report template.
-* Include as much detail as possible (OS, AI version, Dash logs).
+### 1. Adding New Skills
+The heart of ARC's subagents is the Skill System. You can contribute by adding new experts to `.agent/skills/definitions/`.
+- **Requirement:** Keep the context low (aim for ~500 tokens for the definition).
+- **Format:** Use Markdown with clear "Behavior Rules" and "Focus Areas".
 
-### Suggesting Enhancements
-* Open an issue with the "Feature Request" template.
-* Explain why this enhancement would be useful to most ARC users.
+### 2. Refining Workflows
+If you find a slash command (e.g., `/arc-plan`) that loses context or needs better instructions, edit the files in `.agent/workflows/`.
 
-### Pull Requests
-1. Fork the repo.
-2. Create a new branch (`git checkout -b feature/amazing-feature`).
-3. Make your changes.
-4. Update the `CONTRACTS.md` or `README.md` if necessary.
-5. Commit your changes (`git commit -m 'Add some amazing feature'`).
-6. Push to the branch.
-7. Open a Pull Request.
+### 3. Improving the Dashboard
+The dashboard is built with **Textual** and **Rich**. Feel free to suggest better layouts, colors, or new metrics.
 
-## Code of Conduct
-Please be respectful and kind to others in the community. Let's build the future of agentic coding together!
+## 📜 Principles
+- **Context First:** Every change must respect the "Load All Context" rule.
+- **Single Source of Truth:** Never hardcode data that should live in `.arc/CONTRACTS.md`.
+- **Concurrency Safety:** If modifying the state update logic, always use the `fcntl` locking mechanism built into `background_agent.py`.
+
+## 🚀 Setup for Development
+1. Clone the repo.
+2. Create a venv: `python3 -m venv venv`.
+3. Install dependencies: `./venv/bin/pip install rich textual google-generativeai`.
+4. Run the dashboard: `./dash`.
+
+---
+Thank you for helping us build the future of agentic engineering!

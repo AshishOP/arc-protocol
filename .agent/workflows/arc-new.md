@@ -8,6 +8,10 @@ I want to initialize a new ARC project. Follow this process:
    - Run `./venv/bin/python3 .agent/dashboard/update.py project="New Project" phase="Initialization" main_status="SETUP" main_action="Discovery Phase"`
    - Provide the user with the command: `./dash`
 
+## Pre-Check: System Alignment
+1. Check if `.arc/` directory already exists. 
+2. If it exists, warn the user and suggest `/arc-map` instead.
+
 1. ASK ME QUESTIONS
    - What are you building?
    - Why does it need to exist?

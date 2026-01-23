@@ -1,77 +1,57 @@
+#!/usr/bin/env python3
 import os
 import sys
 import subprocess
-import platform
+from pathlib import Path
 
-def run_command(cmd, shell=False):
+# ARC Protocol v2.0 - Universal Python Installer
+
+def run_cmd(cmd):
     try:
-        subprocess.check_call(cmd, shell=shell)
-        return True
-    except subprocess.CalledProcessError:
-        return False
+        subprocess.check_call(cmd, shell=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing: {cmd}")
+        sys.exit(1)
 
-def setup():
-    print("🚀 ARC Protocol: Universal Installer")
-    base_dir = os.getcwd()
+def install():
+    print("🚀 Initializing ARC Protocol Universal Installation...")
     
-    # 1. Create Structure
-    dirs = [
-        ".arc/planning", ".arc/archive", ".arc/state", ".arc/templates",
-        ".agent/workflows", ".agent/dashboard", ".agent/rules", ".agent/skills"
-    ]
-    for d in dirs:
-        os.makedirs(os.path.join(base_dir, d), exist_ok=True)
+    root = Path.cwd()
+    venv_path = root / "venv"
     
-    # Ensure CLAUDE.md exists in root
-    if not os.path.exists(os.path.join(base_dir, "CLAUDE.md")):
-        with open(os.path.join(base_dir, "CLAUDE.md"), "w") as f:
-            f.write("# ARC Protocol for Claude\n\nRefer to `README.md` for full context.\n")
-            
-    print("📁 Directory structure & CLAUDE.md: OK")
+    # 1. Environment Setup
+    if not venv_path.exists():
+        print("📦 Creating Virtual Environment...")
+        subprocess.check_call([sys.executable, "-m", "venv", "venv"])
 
-    # 2. Virtual Environment
-    venv_dir = os.path.join(base_dir, "venv")
-    if not os.path.exists(venv_dir):
-        print("🐍 Creating virtual environment...")
-        run_command([sys.executable, "-m", "venv", "venv"])
-    
-    # OS-Specific Paths
-    if platform.system() == "Windows":
-        python_exe = os.path.join(venv_dir, "Scripts", "python.exe")
-        pip_exe = os.path.join(venv_dir, "Scripts", "pip.exe")
+    print("📥 Installing dependencies...")
+    pip_exe = venv_path / ("Scripts" if os.name == "nt" else "bin") / "pip"
+    run_cmd(f"{pip_exe} install -q -r requirements.txt")
+
+    # 2. Scaffolding
+    print("📂 Scaffolding project structure...")
+    folders = [".arc/archive/subagent_logs", ".arc/planning", ".arc/state"]
+    for f in folders:
+        (root / f).mkdir(parents=True, exist_ok=True)
+
+    # 3. Shortcut
+    print("🔗 Creating dashboard shortcut...")
+    py_exe = venv_path / ("Scripts" if os.name == "nt" else "bin") / "python"
+    if os.name == "nt":
+        with open("dash.bat", "w") as f:
+            f.write(f"{py_exe} .agent/dashboard/monitor.py")
     else:
-        python_exe = os.path.join(venv_dir, "bin", "python3")
-        pip_exe = os.path.join(venv_dir, "bin", "pip")
+        with open("dash", "w") as f:
+            f.write(f"#!/usr/bin/env bash\n{py_exe} .agent/dashboard/monitor.py")
+        os.chmod("dash", 0o755)
 
-    # 3. Dependencies
-    print("📦 Installing dependencies (rich)...")
-    run_command([pip_exe, "install", "rich"])
-
-    # 4. Global Shortcut
-    print("🔗 Setting up 'dash' shortcut...")
-    if platform.system() != "Windows":
-        # Mac/Linux Symlink
-        bin_dir = os.path.expanduser("~/.local/bin")
-        os.makedirs(bin_dir, exist_ok=True)
-        dash_script = os.path.join(base_dir, "dash")
-        with open(dash_script, "w") as f:
-            f.write(f"#!/usr/bin/env bash\n{python_exe} {os.path.join(base_dir, '.agent/dashboard/monitor.py')}\n")
-        os.chmod(dash_script, 0o755)
-        
-        target = os.path.join(bin_dir, "dash")
-        if os.path.exists(target): os.remove(target)
-        os.symlink(dash_script, target)
-        print(f"✅ Shortcut created at {target}")
-    else:
-        # Windows Batch File
-        bin_dir = os.path.join(os.environ["USERPROFILE"], "AppData", "Local", "Microsoft", "WindowsApps")
-        dash_bat = os.path.join(bin_dir, "dash.bat")
-        with open(dash_bat, "w") as f:
-            f.write(f'@echo off\n"{python_exe}" "{os.path.join(base_dir, ".agent/dashboard/monitor.py")}"\n')
-        print(f"✅ Windows shortcut created at {dash_bat}")
-
-    print("\n🎉 ARC Protocol is ready!")
-    print("👉 Type 'dash' to open the dashboard.")
+    # 4. Final Info
+    print("\n✨ Installation Complete!")
+    print("-" * 50)
+    print("🚀 To start the dashboard, run:")
+    print("   ./dash (Linux/Mac)")
+    print("   .\\dash.bat (Windows)")
+    print("-" * 50)
 
 if __name__ == "__main__":
-    setup()
+    install()

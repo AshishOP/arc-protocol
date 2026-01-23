@@ -1,136 +1,317 @@
 #!/usr/bin/env python3
 import json
-import os
-import sys
 import time
-from datetime import datetime
-from rich.console import Console
-from rich.layout import Layout
-from rich.panel import Panel
+import re
+from datetime import datetime, timedelta
+from pathlib import Path
+
+from textual.app import App, ComposeResult
+from textual.containers import Container, Horizontal, Vertical
+from textual.widgets import Header, Footer, Static, Input, DataTable, RichLog
+from textual.reactive import reactive
+from textual.binding import Binding
 from rich.table import Table
-from rich.live import Live
 from rich.text import Text
+from rich.panel import Panel
+from rich.align import Align
 
-# Path to the state file
-STATE_FILE = os.path.join(os.path.dirname(__file__), "../../arc_workflow_state.json")
+# --- CONFIGURATION ---
+SCRIPT_DIR = Path(__file__).parent.absolute()
+PROJECT_ROOT = SCRIPT_DIR.parent.parent
+STATE_FILE = PROJECT_ROOT / ".arc" / "arc_workflow_state.json"
 
-console = Console()
+class DashboardHeader(Static):
+    """The top header with ASCII logo and metrics."""
+    
+    metrics = reactive({})
+    
+    def on_mount(self) -> None:
+        self.update_stats()
+        self.set_interval(1, self.update_stats)
 
-class ARCDashboard:
-    def __init__(self):
-        self.logs = []
-        self.default_agents = {
-            "Architect": {"status": "IDLE", "task": "Waiting...", "color": "blue"},
-            "Executor": {"status": "IDLE", "task": "Waiting...", "color": "green"},
-            "Reviewer": {"status": "IDLE", "task": "Waiting...", "color": "yellow"}
+    def update_stats(self) -> None:
+        # Calculate time
+        start_ts = self.metrics.get("phase_start_time")
+        if start_ts:
+            elapsed = datetime.now().timestamp() - start_ts
+            # Fix: Reset if > 1 year (30M seconds)
+            if elapsed > 30000000:
+                time_str = "00:00:00"
+            else:
+                time_str = str(timedelta(seconds=int(elapsed)))
+        else:
+            time_str = "00:00:00"
+
+        # Calculate Progress
+        done = self.metrics.get("tasks_completed", 0)
+        total = self.metrics.get("tasks_total", 0)
+        pct = int((done / total) * 100) if total > 0 else 0
+        
+        # ASCII Logo
+        logo = Text(r"""
+   █████╗ ██████╗  ██████╗ 
+  ██╔══██╗██╔══██╗██╔════╝ 
+  ███████║██████╔╝██║      
+  ██╔══██║██╔══██╗██║      
+  ██║  ██║██║  ██║╚██████╗ 
+  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ 
+""", style="bold cyan")
+
+        # Stats Grid
+        grid = Table.grid(expand=True, padding=(0, 2))
+        grid.add_column(justify="right")
+        grid.add_row(f"[bold white]PROJECT:[/]{self.metrics.get('project', 'ARC Protocol')}")
+        grid.add_row(f"[bold yellow]PHASE:[/]{self.metrics.get('phase', 'N/A')}")
+        grid.add_row(f"[bold green]TIME:[/]{time_str}")
+        
+        # Progress Bar
+        bar_width = 15
+        filled = int(bar_width * (pct / 100))
+        bar = f"[magenta]{'█'*filled}[/][dim magenta]{'░'*(bar_width-filled)}[/]"
+        grid.add_row(f"TASKS: {done}/{total} {bar}")
+
+        # Combine
+        layout = Table.grid(expand=True)
+        layout.add_column(ratio=1)
+        layout.add_column(ratio=1, justify="right")
+        layout.add_row(logo, grid)
+        
+        self.update(Panel(layout, style="blue", border_style="blue"))
+
+class OrchestratorPanel(Static):
+    """The Orchestrator Status Panel."""
+    status = reactive("IDLE")
+    action = reactive("Waiting...")
+
+    def render(self):
+        color = "green" if self.status != "IDLE" else "white"
+        content = Align.center(
+            f"\n[bold {color}]{self.status}[/]\n\n[italic white]{self.action}[/]",
+            vertical="middle"
+        )
+        return Panel(content, title="🧠 ORCHESTRATOR", border_style="cyan")
+
+class AgentTable(Static):
+    """The Subagents Table."""
+    agents = reactive({})
+
+    def render(self):
+        table = Table(expand=True, show_header=True, header_style="bold white", box=None)
+        table.add_column("Agent", width=10)
+        table.add_column("Skill", width=10)
+        table.add_column("Status", width=8)
+        table.add_column("Activity")
+
+        # Define default fleet
+        default_fleet = {
+            "Alpha": {"skill": "researcher", "color": "magenta"},
+            "Beta": {"skill": "coder", "color": "green"},
+            "Gamma": {"skill": "auditor", "color": "red"},
+            "Delta": {"skill": "architect", "color": "blue"},
+            "Epsilon": {"skill": "debugger", "color": "yellow"}
         }
-        self.agents = self.default_agents.copy()
-        self.main_agent = {"status": "IDLE", "action": "Waiting..."}
-        self.project_name = "ARC Project"
-        self.phase = "N/A"
-        self.last_update = "N/A"
-
-    def load_state(self):
-        if os.path.exists(STATE_FILE):
-            try:
-                with open(STATE_FILE, "r") as f:
-                    data = json.load(f)
-                    
-                    # Merge loaded agents with defaults to ensure all 3 appear
-                    loaded_agents = data.get("agents", {})
-                    new_agents = self.default_agents.copy()
-                    for k, v in loaded_agents.items():
-                        new_agents[k] = v
-                    self.agents = new_agents
-                    
-                    self.main_agent = data.get("main_agent", self.main_agent)
-                    self.logs = data.get("logs", self.logs)[-12:] # Reduced from 20 to prevent overflow
-                    self.project_name = data.get("project_name", self.project_name)
-                    self.phase = data.get("phase", self.phase)
-                    self.last_update = datetime.now().strftime("%H:%M:%S")
-            except:
-                pass
-
-    def generate_layout(self) -> Layout:
-        layout = Layout()
-        layout.split(
-            Layout(name="header", size=10),
-            Layout(name="main", ratio=1),
-            Layout(name="footer", size=3),
-        )
-        layout["main"].split_row(
-            Layout(name="side", ratio=1),
-            Layout(name="body", ratio=2),
-        )
         
-        # Header
-        ascii_logo = """
-   ___     ____     ______ 
-  /   |   / __ \   / ____/ 
- / /| |  / /_/ /  / /      
-/ ___ | / _, _/  / /___    
-/_/  |_|/_/ |_|   \____/    
-"""
-        layout["header"].update(
-            Panel(
-                Text(f"{ascii_logo}\nARC PROTOCOL DASHBOARD | {self.project_name}", justify="center", style="bold cyan"),
-                style="blue"
-            )
-        )
+        # Merge live data with defaults
+        display_agents = default_fleet.copy()
+        for name, info in self.agents.items():
+            if name in display_agents:
+                display_agents[name].update(info)
+            else:
+                display_agents[name] = info 
 
-        # Side - Subagent Status + Main Agent Action
-        side_layout = Layout()
-        side_layout.split(
-            Layout(name="main_status", size=5),
-            Layout(name="worker_status", ratio=1)
-        )
-
-        # Main Agent Panel
-        main_status_text = Text.from_markup(
-            f"Status: [bold cyan]{self.main_agent['status']}[/]\n"
-            f"Action: [italic]{self.main_agent['action']}[/]"
-        )
-        side_layout["main_status"].update(Panel(main_status_text, title="🧠 Cortex", border_style="cyan"))
-
-        # Workers Table
-        table = Table(expand=True, box=None, padding=(0, 1))
-        table.add_column("Worker", style="bold", min_width=10)
-        table.add_column("Status", min_width=8)
-        table.add_column("Task", ratio=1)
-
-        for agent, info in self.agents.items():
-            status_style = "bold green" if info["status"] == "DONE" else "bold yellow" if info["status"] in ["WORKING", "THINKING", "DESIGNING"] else "white"
+        for i, (name, info) in enumerate(sorted(display_agents.items())):
+            if i > 12: break
+            s = info.get('status', 'IDLE')
+            c = "dim"
+            if s == "WORKING": c = "bold white"
+            elif s == "DONE": c = "green"
+            elif s == "ERROR": c = "bold red"
+            
+            task = info.get('task', 'Waiting for assignment...')
+            if len(task) > 30: task = task[:27] + "..."
+            
             table.add_row(
-                f"[{info['color']}]{agent}[/]", 
-                f"[{status_style}]{info['status']}[/]", 
-                info["task"]
+                f"[{info.get('color', 'white')}]{name}[/]", 
+                info.get('skill', 'General').title(), 
+                f"[{c}]{s}[/]", 
+                task
             )
-        side_layout["worker_status"].update(Panel(table, title="🛠️ Workers", border_style="white"))
+            
+        return Panel(table, title="🛠️  SUBAGENTS", border_style="white")
 
-        layout["side"].update(side_layout)
+class ARCDashboardApp(App):
+    """The Main Application Class."""
+    
+    CSS = """
+    Screen {
+        layout: vertical;
+        background: #0d1117;
+    }
+    #header-box {
+        height: 10;
+        dock: top;
+    }
+    #middle-row {
+        height: 1fr;
+        layout: horizontal;
+    }
+    #left-col {
+        width: 1fr;
+        layout: vertical;
+    }
+    #right-col {
+        width: 2fr;
+    }
+    #cortex {
+        height: 1fr;
+    }
+    #cmd-box {
+        height: 8; 
+        border: solid green;
+        background: #0d1117;
+    }
+    #cmd-status {
+        color: yellow;
+        text-style: bold;
+        padding-left: 1;
+    }
+    Input {
+        dock: top;
+        background: #0d1117;
+        border: none;
+        color: green;
+    }
+    #logs {
+        height: 12;
+        dock: bottom;
+        border: solid magenta;
+        background: #0d1117;
+    }
+    """
 
-        # Body - Logs
-        log_text = Text.from_markup("\n".join(self.logs))
-        layout["body"].update(Panel(log_text, title="📜 Execution Stream", border_style="magenta"))
-
-        # Footer
-        layout["footer"].update(
-            Panel(
-                Text(f"LAST SYNC: {self.last_update} | ARC ENGINE: ACTIVE", justify="center", style="bold green"),
-                style="green"
-            )
-        )
+    def compose(self) -> ComposeResult:
+        # Header
+        yield DashboardHeader(id="header-box")
         
-        return layout
+        # Middle Section
+        with Horizontal(id="middle-row"):
+            with Vertical(id="left-col"):
+                yield OrchestratorPanel(id="cortex")
+                
+                # Command Input Box
+                with Container(id="cmd-box"):
+                    yield Static("⌨️  COMMAND", classes="box-title")
+                    yield Input(placeholder="Type /help...", id="cmd-input")
+                    yield Static("", id="cmd-status") 
+            
+            with Container(id="right-col"):
+                yield AgentTable(id="agents")
+
+        # Bottom Logs
+        yield RichLog(id="logs", highlight=True, markup=True, wrap=True)
+
+    def on_mount(self) -> None:
+        self.query_one(RichLog).write("[bold magenta]📜 DATA UPLINK INITIALIZED...[/]")
+        self.query_one(RichLog).border_title = "📜 DATA UPLINK"
+        
+        # Start the data refresh timer (100ms)
+        self.set_interval(0.1, self.load_state)
+        
+        # Focus input immediately
+        self.query_one(Input).focus()
+
+    def load_state(self) -> None:
+        if not STATE_FILE.exists():
+            return
+
+        try:
+            with open(STATE_FILE, "r") as f:
+                data = json.load(f)
+            
+            # Update Header Metrics
+            header = self.query_one(DashboardHeader)
+            header.metrics = {
+                "project": data.get("project_name", "ARC"),
+                "phase": data.get("phase", "N/A"),
+                "phase_start_time": data.get("metrics", {}).get("phase_start_time"),
+                "tasks_completed": data.get("metrics", {}).get("tasks_completed", 0),
+                "tasks_total": data.get("metrics", {}).get("tasks_total", 0),
+            }
+
+            # Update Agents
+            self.query_one(AgentTable).agents = data.get("agents", {})
+
+            # Update Orchestrator
+            cortex = self.query_one(OrchestratorPanel)
+            main = data.get("main_agent", {})
+            cortex.status = main.get("status", "IDLE")
+            cortex.action = main.get("action", "Waiting...")
+
+            # Update Logs
+            logs = data.get("logs", [])
+            log_widget = self.query_one(RichLog)
+            
+            # Append only new logs
+            if not hasattr(self, "_last_log_count"):
+                self._last_log_count = 0
+            
+            if len(logs) > self._last_log_count:
+                new_lines = logs[self._last_log_count:]
+                for line in new_lines:
+                    # Regex to find paths like 'Saved to X.md' and add links
+                    def link_replacer(match):
+                        path_str = match.group(0)
+                        if path_str.startswith("/"):
+                            abs_path = path_str
+                        else:
+                            abs_path = str(PROJECT_ROOT / path_str)
+                        return f"[link=file://{abs_path}]{path_str}[/link]"
+
+                    # Apply link formatting
+                    line_linked = re.sub(r'[\w\-\./\\]+\.(md|py|json|txt|log)', link_replacer, line)
+                    
+                    # Add space padding
+                    log_widget.write(" " + line_linked)
+                self._last_log_count = len(logs)
+
+        except Exception:
+            pass
+
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        cmd = event.value.strip()
+        status_label = self.query_one("#cmd-status", Static)
+        
+        if not cmd: return
+        
+        if cmd == "/clean":
+            status_label.update("✅ Dashboard Reset")
+            # Reset the file with clean state
+            with open(STATE_FILE, "w") as f:
+                json.dump({
+                    "project_name": "ARC Protocol",
+                    "phase": "System Reset",
+                    "agents": {},
+                    "main_agent": {"status": "ONLINE", "action": "Ready"},
+                    "logs": ["[SYSTEM] Dashboard cleared."],
+                    "metrics": {"tasks_completed": 0, "tasks_total": 0, "time_elapsed": "0m", "phase_start_time": time.time()}
+                }, f)
+            
+            self.query_one(RichLog).clear()
+            self._last_log_count = 0
+            self.load_state() # Force immediate refresh
+            
+        elif cmd == "/exit":
+            self.exit()
+            
+        elif cmd == "/help":
+            status_label.update("ℹ️  Available: /clean, /exit")
+            
+        else:
+            status_label.update(f"❌ Unknown: {cmd}")
+        
+        # Clear input
+        self.query_one(Input).value = ""
 
 if __name__ == "__main__":
-    dash = ARCDashboard()
-    try:
-        # Re-enabling screen=True for dedicated buffer, which prevents duplication
-        with Live(dash.generate_layout(), refresh_per_second=4, screen=True) as live:
-            while True:
-                dash.load_state()
-                live.update(dash.generate_layout())
-                time.sleep(0.2)
-    except Exception as e:
-        console.print(f"[bold red]Dashboard Error:[/] {e}")
+    app = ARCDashboardApp()
+    app.run()

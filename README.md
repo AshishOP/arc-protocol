@@ -1,233 +1,135 @@
-# 🚀 The ARC Protocol
+# 🚀 The ARC Protocol v2.0
 
 ```text
-    ___     ____     ______
-   /   |   / __ \   / ____/
-  / /| |  / /_/ /  / /     
- / ___ | / _, _/  / /___   
-/_/  |_|/_/ |_|   \____/   
-                           
+   █████╗ ██████╗  ██████╗ 
+  ██╔══██╗██╔══██╗██╔════╝ 
+  ███████║██████╔╝██║      
+  ██╔══██║██╔══██╗██║      
+  ██║  ██║██║  ██║╚██████╗ 
+  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ 
    ANALYZE. RUN. CONFIRM.
 ```
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Multi-AI Support](https://img.shields.io/badge/AI-Antigravity%20%7C%20Claude-blueviolet)](CLAUDE.md)
-[![Workflow](https://img.shields.io/badge/Workflow-Ready-success)](.arc/templates/)
-[![Stars](https://img.shields.io/github/stars/AshishOP/arc-protocol?style=social)](https://github.com/AshishOP/arc-protocol)
+[![Multi-AI Support](https://img.shields.io/badge/AI-Antigravity%20%7C%20Claude%20%7C%20Gemini-blueviolet)](CLAUDE.md)
+[![Workflow](https://img.shields.io/badge/Workflow-Parallel-success)](.agent/workflows/)
+[![Interface](https://img.shields.io/badge/Interface-Textual%20TUI-orange)](#-interactive-dashboard)
 
-> A high-discipline, agentic workflow system for AI-assisted development.
+> **The first high-discipline, parallel agentic workflow for AI engineers.** 
+> ARC transforms your AI from a stateless chatbot into a structured **Autonomous Engineering Team**.
 
 ---
 
 ## 🧠 Why ARC?
 
-Standard AI chats are **stateless and chaotic**. You ask for a feature, the AI writes some code, forgets the context 10 minutes later, and eventually breaks your production build because it forgot the "Contract" established 3 sessions ago.
+Standard AI chats are **stateless and chaotic**. The AI forgets context, violates standards, and breaks builds because it lacks a persistent "Neural Architecture." 
 
-**ARC solves this by enforcing a Neural Architecture on your development loop:**
-
-1.  **Analyze (Architect)**: No code is written until the "Contract" is defined.
-2.  **Run (Executor)**: Code is implemented in atomic, verifiable tasks.
-3.  **Confirm (Reviewer)**: Every change is audited against the project state.
-
-## 📊 Real-time Trajectory Tracking
-
-Unlike standard logs, ARC provides a **Live Dashboard** that shows you exactly what the "Brain" (Main Agent) and the "Trajectory Workers" (Subagents) are doing in real-time.
+**ARC v2.0 solves this by introducing the Orchestrator-Worker model:**
+*   **The Orchestrator (Cortex):** The high-reasoning Main Agent (you + your primary AI) who plans and decides.
+*   **The Subagents (Workers):** Specialized background processes that execute tactical tasks in parallel using the `flash` model.
 
 ---
 
-## 🚀 What is ARC?
+## 🖥️ Interactive TUI Dashboard
 
-ARC is a context-engineered, spec-driven development framework. It transforms the AI from a simple code generator into a structured **Autonomous Agent Suite** with three specialized roles:
+ARC features a professional terminal-based dashboard built with **Textual**. It gives you a "NASA-style" view of your entire AI fleet.
 
-- **Architect (Analyze)**: Designs the plan, identifies edge cases, and enforces technical standards.
-- **Executor (Run)**: Implements the code task-by-task, following the Architect's blueprint.
-- **Reviewer (Confirm)**: Verifies the work against requirements and ensures codebase integrity.
+### ✨ Key Features:
+- **Live Ticking Clock:** Track exactly how long a development phase takes.
+- **Interactive Command Box:** Run system commands like `/clean` or `/help` directly in the UI.
+- **Native Scrolling:** Use your mouse wheel or trackpad to browse 500+ lines of log history.
+- **Hyperlinked Files:** Click on generated reports in the log to open them instantly in your editor.
+- **Rainbow Fleet:** Visual tracking of 5 specialized skills with distinct color identities.
 
-## ✨ Features
+---
 
-- 🎯 **No Scope Creep**: Clear transitions between Discussion, Planning, and Execution.
-- 🧠 **Infinite Context**: Persistent state files (`STATE.md`) allow agents to resume work across sessions without loss of intent.
-- 🔧 **Contract-First Design**: Shared definitions (`CONTRACTS.md`) ensure consistency across APIs, schemas, and UI components.
-- 📊 **Real-time Trajectory Dashboard**: A live CLI dashboard to track subagent thoughts, actions, and progress.
-- 🛡️ **Skill Integration**: Optimized for tactical skills like performance, security, and rendering efficiency.
+## 🛠️ The Specialized Fleet
 
-Inspired by [Get Shit Done](https://github.com/glittercowboy/get-shit-done) and [RALPH Loop](https://github.com/frankbria/ralph-claude-code), re-engineered for agentic autonomy.
+ARC uses 5 distinct subagents, each optimized for a specific engineering role:
 
-## Quick Start
+| Agent | Color | Skill | Primary Goal |
+| :--- | :--- | :--- | :--- |
+| **Alpha** | 🟣 | `Researcher` | Gathers info, reads documentation, summarizes intent. |
+| **Beta** | 🟢 | `Coder` | Implements logic and follows `.arc/CONTRACTS.md` strictly. |
+| **Gamma** | 🔴 | `Auditor` | Scans for security flaws, bugs, and naming violations. |
+| **Delta** | 🔵 | `Architect` | Designs file structures and system data flows. |
+| **Epsilon**| 🟡 | `Debugger` | Analyzes stack traces and identifies root causes. |
 
-### New Project (Greenfield)
-```
-/arc-new          → Define project, create roadmap
-/arc-discuss      → Capture preferences for a phase (optional)
-/arc-plan         → Create detailed task plan
-/arc-execute      → Build it, task by task
-/arc-verify       → Confirm it works
-```
+---
 
-### Existing Project (Brownfield)
-```
-/arc-map          → Analyze existing codebase first
-/arc-new          → Define what you're adding
-...continue as above
-```
+## 🛡️ The "Rule of Two" (Performance)
 
-### Session Management
-```
-/arc-pause        → Save state before leaving
-/arc-resume       → Load context when returning
-/arc-status       → See current progress
-```
+To ensure stability and respect API quotas, ARC enforces the **Rule of Two**:
+1.  **1 Orchestrator** (Primary Brain).
+2.  **Max 2 Subagents** active simultaneously.
 
-### Quick Tasks
-```
-/arc-quick        → Small fixes outside the phase structure
-```
+All agents are optimized for a **2500-token context window**, ensuring they stay fast, accurate, and cheap.
 
-### Roadmap Changes
-```
-/arc-add-phase    → Insert a new phase into roadmap
-```
+---
 
-## File Structure
+## 🌉 The ARC Bridge (MCP Server)
 
-```
-.arc/
-├── PROJECT.md           # What you're building (vision, goals, constraints)
-├── ROADMAP.md           # Phases and progress
-├── STATE.md             # Current session state (for pause/resume)
-├── CONTRACTS.md         # Shared definitions (APIs, models, conventions)
-├── CODEBASE.md          # Existing codebase map (brownfield only)
-├── planning/
-│   ├── phase-1-CONTEXT.md   # Preferences from discuss phase
-│   ├── phase-1-PLAN.md      # Detailed task plan
-│   └── phase-1-SUMMARY.md   # Completion record
-├── archive/             # Completed phase plans
-├── state/               # State snapshots
-└── templates/           # Templates for all document types
-    ├── PROJECT.md
-    ├── CONTRACTS.md
-    ├── CONTEXT.md
-    ├── PHASE-PLAN.md
-    ├── PHASE-SUMMARY.md
-    ├── CODEBASE.md
-    └── VERIFICATION.md
+The project includes a built-in **Model Context Protocol (MCP)** server. This acts as the "Nervous System," connecting the AI to your local machine.
 
-.agent/
-└── workflows/           # Antigravity workflow definitions
-    ├── arc-new.md
-    ├── arc-discuss.md
-    ├── arc-plan.md
-    ├── arc-execute.md
-    ├── arc-verify.md
-    ├── arc-pause.md
-    ├── arc-resume.md
-    ├── arc-status.md
-    ├── arc-quick.md
-    ├── arc-add-phase.md
-    └── arc-map.md
-```
+- **`arc_spawn_agent`**: Launches parallel sub-processes.
+- **`arc_read_file` / `arc_write_file`**: Unified, safe file access.
+- **`arc_update_dashboard`**: Real-time visualization sync.
 
-## Workflow Commands
+---
 
-| Command | When to Use | Creates/Updates |
-|---------|-------------|-----------------|
-| `/arc-new` | Starting a new project | PROJECT.md, ROADMAP.md |
-| `/arc-map` | Before modifying existing code | CODEBASE.md, CONTRACTS.md |
-| `/arc-discuss` | Before planning, to capture preferences | phase-N-CONTEXT.md |
-| `/arc-plan` | Ready to plan a phase | phase-N-PLAN.md |
-| `/arc-add-phase` | Need to insert a new phase | ROADMAP.md |
-| `/arc-execute` | Ready to build | Code, CONTRACTS.md, STATE.md |
-| `/arc-verify` | After execution, test it works | phase-N-VERIFICATION.md |
-| `/arc-pause` | Leaving for the day | STATE.md |
-| `/arc-resume` | Starting a new session | Loads all context |
-| `/arc-status` | Quick progress check | Nothing, just reports |
-| `/arc-quick` | Small ad-hoc tasks | Code, CONTRACTS.md |
+## 🛠️ One-Click Installation
 
-## The Contract System
+Choose the command for your system to initialize the ARC environment:
 
-`CONTRACTS.md` is the **single source of truth** for everything shared:
+| Platform | Command |
+| :--- | :--- |
+| **Bash / Zsh / Mac / WSL** | `bash install.sh` |
+| **Windows PowerShell** | `powershell ./install.ps1` |
+| **Fish Shell** | `fish install.fish` |
+| **Universal (Python)** | `python install_arc.py` |
 
-- API endpoints and their request/response formats
-- Data models and schemas
-- Environment variables
-- Naming conventions
-- Design tokens and colors
-- Component props
+---
 
-**Rule:** If you CREATE something another part uses, add it to CONTRACTS.md immediately.
+## ⚡ Quick Start Guide
 
-## Typical Workflow
+### 1. The Core Files (The Brain)
+ARC relies on four Markdown files in your `.arc/` folder as the "Single Source of Truth":
+- `PROJECT.md`: The Vision.
+- `ROADMAP.md`: The Plan.
+- `CONTRACTS.md`: The Rules (APIs, naming, etc).
+- `STATE.md`: The Current Progress.
 
-```
-Day 1 Morning:
-  /arc-new              → Define Authent8, create 5-phase roadmap
+### 2. Complete Workflow Commands
+Run these slash commands in your AI side-bar to drive the workflow:
 
-Day 1 Afternoon:  
-  /arc-discuss          → Discuss Phase 1 preferences
-  /arc-plan             → Plan Phase 1 (Backend API)
-  /arc-execute          → Build it
-  /arc-verify           → Test it works
-  /arc-pause            → Save state, take a break
+| Command | Action | Output / Goal |
+| :--- | :--- | :--- |
+| `/arc-new` | **Initialize** | Define project vision and create roadmap. |
+| `/arc-map` | **Discover** | Sync ARC with an existing codebase. |
+| `/arc-discuss` | **Capture** | Preferences and technical decisions for a phase. |
+| `/arc-plan` | **Architect** | Create a detailed task-by-task execution plan. |
+| `/arc-execute` | **Build** | Launch parallel subagents to implement code. |
+| `/arc-verify` | **Audit** | Final QA, syntax check, and contract verification. |
+| `/arc-quick` | **Patch** | Handle small ad-hoc tasks outside the roadmap. |
+| `/arc-multi-agent`| **Orchestrator** | Manage complex parallel subagent workflows. |
+| `/arc-dual-agent` | **Collaboration**| Sync two separate AI instances for heavy-duty dev. |
+| `/arc-add-phase` | **Expand** | Insert new phases into an existing roadmap. |
+| `/arc-status` | **Report** | Get a summary of current project progress. |
+| `/arc-health` | **Diagnostics** | Verify system configuration and API health. |
+| `/arc-pause` | **Snapshot** | Save session state before exiting. |
+| `/arc-resume` | **Restore** | Load state and context from a previous session. |
+| `/arc-help` | **Guidance** | List all available commands and best practices. |
 
-Day 1 Evening:
-  /arc-resume           → Load context
-  /arc-plan             → Plan Phase 2 (Frontend)
-  /arc-execute          → Build it
-  ...
-
-Mid-project realization:
-  /arc-add-phase        → Insert "Authentication" phase
-  /arc-plan             → Plan the new phase
-  ...
+### 3. Monitoring
+Keep your dashboard open in a separate terminal to watch the magic happen:
+```bash
+./dash
 ```
 
-## Why This Works
+---
 
-1. **Context never rots** — Each workflow loads exactly what it needs
-2. **Decisions persist** — CONTRACTS.md and CONTEXT.md survive session resets
-3. **Progress is visible** — ROADMAP.md and STATE.md show where you are
-4. **Focus is maintained** — One task at a time, one phase at a time
-5. **Nothing is guessed** — Discuss phase captures preferences before planning
+## 📜 License
+MIT — Created by Ashish. Optimized for the next generation of AI-assisted engineering.
 
-## 🛠️ Installation & Setup
-
-1. **One-Click Install**:
-   Run the following command in your project root to initialize ARC:
-   ```bash
-   curl -sSL https://raw.githubusercontent.com/[your-repo]/main/setup.sh | bash
-   ```
-
-2. **Manual Setup**:
-   - Copy the `.arc/` and `.agent/` folders to your project.
-   - Run `python3 .agent/dashboard/setup_dashboard.py` to prepare the environment.
-
-3. **Start Building**:
-   Run `/arc-new` to define your project roadmap.
-
-## 🤖 Multi-AI Support
-
-ARC is designed to be the bridge between different AI agents:
-
-- **Antigravity**: Full native support via Slash Commands (`/arc-plan`, etc.) and trajectory tracking.
-- **Claude Code**: Native support via `CLAUDE.md`. Claude will automatically follow the ARC protocols, update the dashboard, and respect project contracts.
-- **Other Agents**: Manual adherence to the `.agent/workflows/` allows any LLM-based agent to maintain high context and project integrity.
-
-## Comparison to Other Systems
-
-| Feature | ARC Protocol | GetShitDone | RALPH Loop |
-|---------|----------|--------------|------------|
-| Multi-AI (Claude/Antigravity) | ✅ Native | ❌ No | ❌ No |
-| Real-time Dashboard | ✅ Yes (CLI) | ❌ No | ❌ No |
-| Contract tracking | ✅ Comprehensive | ❌ None | ❌ None |
-| Session continuity | ✅ STATE.md | ✅ STATE.md | ✅ tmux |
-| Discuss phase | ✅ Yes | ✅ Yes | ❌ No |
-
-## License
-
-MIT — Use it, adapt it, share it.
-
-## Credits
-
-- Inspired by [Get Shit Done](https://github.com/glittercowboy/get-shit-done) by glittercowboy
-- Inspired by [RALPH Loop](https://github.com/frankbria/ralph-claude-code) by frankbria
-- Adapted for Antigravity by you!
+---
+*Inspired by Get Shit Done and RALPH Loop. Re-engineered for parallel agentic autonomy.*

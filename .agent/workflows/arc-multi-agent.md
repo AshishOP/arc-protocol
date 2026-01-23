@@ -1,32 +1,42 @@
 ---
-description: Orchestrate multiple subagents for complex feature development
+description: Orchestrate true parallel subagents using the ARC Bridge
 ---
 
-# ARC Multi-Agent Orchestration
+# ARC Multi-Agent Orchestration (Parallel Mode)
 
-Use this workflow for high-complexity features that require distinct analysis, implementation, and verification phases.
+> **Modern ARC Architecture:** Unlike sequential AI chats, this system uses **True Parallel Processes**. The Main Agent acts as the **Orchestrator (Cortex)**, spawning specialized sub-processes to handle tactical tasks.
+
+## 🛡️ The Rule of Two
+To avoid API rate limits and context fragmentation, follow the **Rule of Two**:
+- **1 Main Agent** (Orchestrator - high reasoning)
+- **Max 2 Subagents** (Workers - tactical/fast)
 
 ## 0. Dashboard Initialization
-- Run `./venv/bin/python3 .agent/dashboard/update.py project="[Project Name]" phase="Complex Feature Orchestration" main_status="ORCHESTRATING" main_action="Managing Subagent Handover" log="Starting Multi-Agent Loop..."`
+- Ensure `./dash` is running in a separate terminal.
+- Run `update.py` to set the project and phase.
 
-## 1. Analyze (Architect Mode)
-- **Role Assignment**: Assume the **Architect** role.
-- **Update Dashboard**: Run `./venv/bin/python3 .agent/dashboard/update.py agent="Architect" status="THINKING" task="System Analysis & Design"`
-- Analyze the project structure and existing contracts in `.arc/CONTRACTS.md`.
-- Propose a technical design and get user approval.
+## 1. Task Decomposition (Orchestration)
+- Before coding, look at the task list.
+- **Categorize Tasks:**
+    - *Strategic:* Architecture, logic flows, complex bugs (Keep for Main Agent).
+    - *Tactical:* Researching docs, writing boilerplate, auditing syntax (Delegate).
 
-## 2. Implement (Executor Mode)
-- **Role Assignment**: Assume the **Executor** role.
-- **Update Dashboard**: Run `./venv/bin/python3 .agent/dashboard/update.py agent="Executor" status="WORKING" task="Feature Implementation"`
-- Execute the planned changes task-by-task.
-- Update `.arc/CONTRACTS.md` for any new exports or APIs.
+## 2. Delegation (The Dispatch)
+- Use the `arc_spawn_agent` tool.
+- **Assign Skill:** Choose from `researcher`, `coder`, `auditor`, `architect`, `debugger`.
+- **Set Model:** Use `flash` for subagents to maximize speed and quota.
+- **Context Injection:** Subagents will automatically read `PROJECT.md` and `CONTRACTS.md` based on their skill.
 
-## 3. Verify (Reviewer Mode)
-- **Role Assignment**: Assume the **Reviewer** role.
-- **Update Dashboard**: Run `./venv/bin/python3 .agent/dashboard/update.py agent="Reviewer" status="WORKING" task="Validation & Testing"`
-- Run tests or perform static analysis to ensure the implementation matches the design.
-- Verify against the standards in `.agent/skills/`.
+## 3. Parallel Execution
+- While the Subagent is working (visible as `WORKING` on the dashboard), the Main Agent continues with strategic tasks.
+- **DO NOT** block your chat waiting for the subagent. Keep building.
 
-## 4. Final Review & Integration
-- Update Dashboard: `status="DONE" task="Orchestration Complete" main_status="IDLE" main_action="Waiting..."`
-- Summarize the changes and confirm all sub-tasks are integrated.
+## 4. Result Aggregation
+- Monitor the dashboard. When an agent turns `DONE`:
+    1.  Read the resulting log file in `.arc/archive/subagent_logs/`.
+    2.  Verify the work.
+    3.  Integrate the results into the main codebase.
+    4.  Update `.arc/CONTRACTS.md` if necessary.
+
+## 5. Final Confirmation
+- Once all bots and the orchestrator finish, run `/arc-verify` to ensure the system is stable.
