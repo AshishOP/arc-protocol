@@ -1,10 +1,50 @@
-# ARC Protocol Files
+# ARC Protocol Files (per‑project state; keep repo clean)
 .arc/planning/phase-*-CONTEXT.md
 .arc/planning/phase-*-PLAN.md
 .arc/planning/phase-*-VERIFICATION.md
 .arc/planning/phase-*-FIXES.md
 .arc/state/
 arc_workflow_state.json
+
+# Environment
+venv/
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+*.egg-info/
+dist/
+build/
+
+# Node.js (if users add frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs & Temp
+*.log
+tmp/
+temp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archives (legacy cleanup)
+.arc/archive/
 
 # Environment
 venv/

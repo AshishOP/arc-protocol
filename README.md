@@ -11,7 +11,6 @@
 ```
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Multi-AI Support](https://img.shields.io/badge/AI-Antigravity%20%7C%20Claude%20%7C%20Gemini-blueviolet)](CLAUDE.md)
 [![Workflow](https://img.shields.io/badge/Workflow-Parallel-success)](.agent/workflows/)
 [![Interface](https://img.shields.io/badge/Interface-Textual%20TUI-orange)](#-interactive-dashboard)
 
@@ -130,6 +129,24 @@ Keep your dashboard open in a separate terminal to watch the magic happen:
 
 ## 📜 License
 MIT — Created by Ashish. Optimized for the next generation of AI-assisted engineering.
+
+## 🚀 Deployment Checklist for New Users
+
+Copy these files/folders into any new project repo (keep at root):
+- `.arc/` (all templates and state management)
+- `.agent/` (workflows, dashboard, tools, bridge, skills)
+- Optional: `venv/` with `rich` installed for the Textual dashboard
+- Optional: root install scripts (`install.sh`, `install.ps1`, `install_arc.py`)
+
+### Initial Setup in New Project
+1. Copy the files above.
+2. Run `python install_arc.py` (or platform script) to ensure dependencies.
+3. Start the dashboard: `./dash`
+4. Run `/arc-new` to initialize your project.
+5. Continue with `/arc-plan` → `/arc-execute` → `/arc-verify`.
+
+### What You Don't Need to Copy
+- Any `src/`, `planning/`, `archive/`, or generated per‑project files. ARC creates these automatically when you start a new project.
 
 ---
 *Inspired by Get Shit Done and RALPH Loop. Re-engineered for parallel agentic autonomy.*
