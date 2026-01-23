@@ -18,4 +18,16 @@
       <rect x="144" y="28" width="200" height="10" rx="6" fill="#0b2238" />
     </g>
   </g>
+  <!-- Decorative labels and an animated highlight -->
+  <g transform="translate(260,24)">
+    <rect x="0" y="0" width="110" height="20" rx="10" fill="#0b2238" />
+    <text x="12" y="14" font-family="Verdana" font-size="11" fill="#7ee7c7">Security Score</text>
+  </g>
+  <g transform="translate(340,40)">
+    <circle cx="0" cy="0" r="8" fill="#7ee7c7" opacity="0.9">
+      <animate attributeName="r" values="6;12;6" dur="2.4s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.9;0.18;0.9" dur="2.4s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="0" cy="0" r="3" fill="#041025" />
+  </g>
 </svg>

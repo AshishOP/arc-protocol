@@ -51,6 +51,10 @@ body{
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
 .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 24px rgba(2,6,23,0.6)}
 .card h3{margin-top:0}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(2,6,23,0.7);transition:all 260ms cubic-bezier(.2,.9,.23,1)}
+.card{transition:all 200ms ease}
+.btn{transition:transform 180ms ease, box-shadow 180ms ease}
+.btn:hover{transform:translateY(-3px)}
 .use-cases{margin-top:36px;padding:28px}
 .muted{color:var(--muted)}
 .list{margin-top:12px}
