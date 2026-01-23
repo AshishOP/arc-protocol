@@ -22,15 +22,36 @@
 
     <section class="hero">
       <div class="hero-inner">
+        <div class="eyebrow">Prototype • Visual-first</div>
         <h1>Ship secure, ship fast — with confidence.</h1>
         <p class="lead">A visual-first DevSecOps showcase for hackathons. Discover security insights woven into your developer flow — no friction, just vibes.</p>
         <div class="hero-ctas">
           <a class="btn primary" href="#get">See Demo</a>
           <a class="btn ghost" href="#features">Learn More</a>
         </div>
+        <div class="trust">
+          <span class="pill">Built for Hackathons</span>
+          <span class="dot"></span>
+          <span class="pill">For Students & Makers</span>
+        </div>
       </div>
       <div class="hero-art" aria-hidden="true">
-        <div class="orb"></div>
+        <!-- Decorative layered orbs + subtle grid -->
+        <svg class="art-svg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="#7ee7c7" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#6ea8fe" stop-opacity="0.12"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="600" height="400" fill="url(#g1)" opacity="0.08"></rect>
+          <circle cx="120" cy="80" r="90" fill="#7ee7c7" opacity="0.12" class="float1"></circle>
+          <circle cx="420" cy="220" r="140" fill="#6ea8fe" opacity="0.08" class="float2"></circle>
+          <g class="glass-cards">
+            <rect x="220" y="120" rx="14" ry="14" width="240" height="120" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.03)"></rect>
+            <rect x="260" y="160" rx="12" ry="12" width="180" height="80" fill="rgba(255,255,255,0.02)"></rect>
+          </g>
+        </svg>
       </div>
     </section>
 

@@ -20,6 +20,21 @@ body{
 .nav .cta{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:8px;color:var(--accent)}
 .hero{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:center;margin-top:36px}
 .hero-inner h1{font-size:44px;line-height:1.02;margin:0 0 12px}
+.eyebrow{color:var(--accent-2);font-weight:700;letter-spacing:0.6px;margin-bottom:10px}
+.trust{margin-top:18px;display:flex;align-items:center;gap:10px}
+.pill{background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted)}
+.dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+.hero-art{position:relative;height:340px}
+.art-svg{width:100%;height:100%;display:block}
+.float1{transform-origin:center;animation:float 6s ease-in-out infinite}
+.float2{transform-origin:center;animation:float 8s ease-in-out infinite}
+.glass-cards{opacity:0.95}
+
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+  100%{transform:translateY(0)}
+}
 .lead{color:var(--muted);max-width:52ch}
 .hero-ctas{margin-top:20px}
 .btn{display:inline-block;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:600}
