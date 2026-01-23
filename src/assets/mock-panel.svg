@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="220" viewBox="0 0 400 220">
+  <rect width="100%" height="100%" rx="12" fill="#071126" />
+  <rect x="16" y="14" width="120" height="14" rx="6" fill="#0b2238" />
+  <circle cx="154" cy="21" r="6" fill="#7ee7c7" />
+  <circle cx="174" cy="21" r="6" fill="#6ea8fe" />
+  <g transform="translate(16,44)">
+    <rect width="368" height="16" rx="6" fill="#0d1b2b" />
+    <rect y="28" width="260" height="12" rx="6" fill="#0d1530" />
+    <rect y="48" width="320" height="12" rx="6" fill="#0d1530" />
+    <rect y="68" width="180" height="12" rx="6" fill="#0d1530" />
+    <g transform="translate(0,96)">
+      <rect width="120" height="70" rx="8" fill="#081022" />
+      <rect x="8" y="8" width="48" height="12" rx="6" fill="#12203a" />
+      <rect x="8" y="28" width="100" height="10" rx="6" fill="#0b2238" />
+      <rect x="136" y="0" width="232" height="70" rx="8" fill="#081022" />
+      <rect x="144" y="8" width="96" height="12" rx="6" fill="#12203a" />
+      <rect x="144" y="28" width="200" height="10" rx="6" fill="#0b2238" />
+    </g>
+  </g>
+</svg>

@@ -30,6 +30,8 @@ body{
 .float2{transform-origin:center;animation:float 8s ease-in-out infinite}
 .glass-cards{opacity:0.95}
 
+.glass-cards image{filter:drop-shadow(0 8px 24px rgba(2,6,23,0.6));}
+
 @keyframes float{
   0%{transform:translateY(0)}
   50%{transform:translateY(-8px)}
