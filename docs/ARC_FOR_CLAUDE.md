@@ -51,4 +51,4 @@ Claude has exceptional reasoning (3.5 Sonnet / 3 Opus), but it is a **single-pro
 - This keeps Claude's tokens focused on the hard logic.
 
 ---
-*ARC Protocol v2.0 - Bringing Parallelism to ClaudeCode.*
+*ARC Protocol v2.1 - Bringing Parallelism to ClaudeCode.*

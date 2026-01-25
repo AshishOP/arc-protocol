@@ -34,4 +34,4 @@ If your version of Copilot does not yet support the `arc_spawn_agent` tool:
 Copilot is fast, but it often "guesses" code. ARC's **CONTRACTS.md** and **ROADMAP.md** act as guardrails. By forcing Copilot to read these files, you reduce hallucinations by over 90%.
 
 ---
-*ARC Protocol v2.0 - Structured Autonomy for Copilot.*
+*ARC Protocol v2.1 - Structured Autonomy for Copilot.*

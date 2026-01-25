@@ -54,4 +54,4 @@ Antigravity will look at the `.arc/planning/` folder and begin spawning subagent
 - **Leverage the 50/50 Rule:** Don't do all the coding yourself. Ask Antigravity to: *"Spawn Alpha to research the API while you build the UI."*
 
 ---
-*ARC Protocol v2.0 - Optimized for Antigravity AI.*
+*ARC Protocol v2.1 - Optimized for Antigravity AI.*

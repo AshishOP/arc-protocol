@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# ARC Protocol v2.0 - Shell Bootstrapper
+# ARC Protocol v2.1 - Shell Bootstrapper
 # This script delegates all logic to setup_arc.py for consistency.
 
 echo "🚀 Bootstrapping ARC Installation via Python Wizard..."

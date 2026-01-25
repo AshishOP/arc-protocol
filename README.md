@@ -1,13 +1,14 @@
 # 🚀 The ARC Protocol v2.1: Parallel Agentic Autonomy
 
 ```text
-    _    ____   ____   ____  ____   ___ _____ ___   ____ ___  _     
-   / \  |  _ \ / ___| |  _ \|  _ \ / _ \_   _/ _ \ / ___/ _ \| |    
-  / _ \ | |_) | |     | |_) | |_) | | | || || | | | |  | | | | |    
- / ___ \|  _ <| |___  |  __/|  _ <| |_| || || |_| | |__| |_| | |___ 
-/_/   \_\_| \_\\____| |_|   |_| \_\\___/ |_| \___/ \____\___/|_____|
-                                                                    
-                     ANALYZE. RUN. CONFIRM.
+   █████╗ ██████╗  ██████╗ 
+  ██╔══██╗██╔══██╗██╔════╝ 
+  ███████║██████╔╝██║      
+  ██╔══██║██╔══██╗██║      
+  ██║  ██║██║  ██║╚██████╗ 
+  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ 
+
+       ANALYZE. RUN. CONFIRM.
 ```
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -303,6 +304,7 @@ The ARC Protocol is open-source and built for the future of agentic engineering.
 - **v1.2 (The Dashboard):** First iteration of the JSON-based status tracker.
 - **v1.5 (The Worker):** The birth of the background daemon using the Gemini API.
 - **v2.0 (The Bridge):** Full MCP integration. The standard for agentic parallelization.
+- **v2.1 (The Parallel Engine):** Ghost Navigator, AI Contract Audits, and Universal Setup Wizard.
 
 ---
 ### **Ready to ship faster?**
@@ -316,24 +318,6 @@ The end-goal of the ARC Protocol is not just to build better apps today. It is t
 1.  **Phase Alpha (Current):** Single human orchestrating multiple local subagents.
 2.  **Phase Beta (2025-2027):** Multiple humans orchestrating massive "Farms" of hundreds of agents across global networks.
 3.  **Phase Gamma (The Singularity Standard):** Autonomous agents using ARC-style contracts to build and maintain themselves, with humans acting as "Policy Governors."
-
----
-
-## XLII. Advanced Performance Benchmarking (Data)
-
-In a series of "Sprint Stress Tests," the ARC Protocol was compared against standard serial AI agents.
-
-| Metric | Sequential Agent | ARC Orchestrator | Improvement |
-| :--- | :--- | :--- | :--- |
-| **Boilerplate Creation (10 files)** | 12m 30s | 3m 15s | **3.8x** |
-| **Documentation Search (5 sources)**| 8m 45s | 1m 50s | **4.7x** |
-| **Complex Bug Debugging** | 22m 10s | 9m 20s | **2.3x** |
-| **Full Project Initialization** | 15m 00s | 4m 30s | **3.3x** |
-
-**Hardware Specs for Test:**
-- **CPU:** M2 Max / Ryzen 9 7950X
-- **RAM:** 32GB+
-- **Network:** 1Gbps Fiber
 
 ---
 

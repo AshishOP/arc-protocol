@@ -1,4 +1,4 @@
-# ARC Protocol v2.0 - PowerShell Bootstrapper
+# ARC Protocol v2.1 - PowerShell Bootstrapper
 # This script delegates all logic to setup_arc.py for consistency.
 
 Write-Host "🚀 Bootstrapping ARC Installation via Python Wizard..." -ForegroundColor Cyan
