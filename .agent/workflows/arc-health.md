@@ -31,9 +31,14 @@ Run a diagnostic on your ARC installation and project setup.
 
 5. **Check Workflows**:
    - List all workflows in `.agent/workflows/`
-   - Confirm count: 13 expected
+   - Confirm count: 14 expected
 
-6. **Report**:
+6. **Check Subagents**:
+   - ✅ Verify `npm list -g @google/generative-ai` (Gemini CLI)
+   - ✅ Verify `gemini --version`
+   - ✅ Check if `~/.config/gemini/config.json` (or equivalent) exists (Authentication)
+
+7. **Report**:
 
 ```markdown
 # ARC Health Report
@@ -44,24 +49,16 @@ Run a diagnostic on your ARC installation and project setup.
 - Dependencies: rich installed
 - Dashboard shortcut: OK
 
+## 🤖 Subagents (The Fleet)
+- Gemini CLI: [OK / Missing]
+- Authentication: [Logged In / Not Authenticated]
+- Bridge Connection: [Active / Inactive]
+
 ## ⚠️ Project Setup
-- PROJECT.md: Missing (run /arc-new)
-- ROADMAP.md: Missing (run /arc-new)
-- CONTRACTS.md: Empty template
-- STATE.md: Not initialized
-
-## 📊 System
-- Templates: 9/9 found
-- Workflows: 13/13 found
-- Skills: 6 found
-- Dashboard: Functional
-
-## 🎯 Next Steps
-1. Run `/arc-new` to initialize your project
-2. Run `dash` to open the dashboard
+...
 ```
 
-7. **Fix Common Issues**:
-   - If venv missing: "Run: python3 -m venv venv"
-   - If rich missing: "Run: ./venv/bin/pip install rich"
-   - If PROJECT.md missing: "Run /arc-new to initialize"
+8. **Fix Common Issues**:
+...
+- If Subagents missing: "Run: npm install -g @google/generative-ai && gemini login"
+- If Authentication missing: "Run: gemini login"

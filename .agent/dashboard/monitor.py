@@ -92,14 +92,15 @@ class OrchestratorPanel(Static):
         return Panel(content, title="🧠 ORCHESTRATOR", border_style="cyan")
 
 class AgentTable(Static):
-    """The Subagents Table."""
+    """The Subagents Table with Premium UI."""
     agents = reactive({})
 
     def render(self):
-        table = Table(expand=True, show_header=True, header_style="bold white", box=None)
+        table = Table(expand=True, show_header=True, header_style="bold cyan", box=None, padding=(0, 1))
         table.add_column("Agent", width=10)
-        table.add_column("Skill", width=10)
-        table.add_column("Status", width=8)
+        table.add_column("Skill", width=12)
+        table.add_column("Status", width=10)
+        table.add_column("Progress", width=12)
         table.add_column("Activity")
 
         # Define default fleet
@@ -111,7 +112,7 @@ class AgentTable(Static):
             "Epsilon": {"skill": "debugger", "color": "yellow"}
         }
         
-        # Merge live data with defaults
+        # Merge live data
         display_agents = default_fleet.copy()
         for name, info in self.agents.items():
             if name in display_agents:
@@ -123,21 +124,34 @@ class AgentTable(Static):
             if i > 12: break
             s = info.get('status', 'IDLE')
             c = "dim"
-            if s == "WORKING": c = "bold white"
-            elif s == "DONE": c = "green"
-            elif s == "ERROR": c = "bold red"
+            bar = "[dim]░░░░░░░░░░[/]"
             
-            task = info.get('task', 'Waiting for assignment...')
+            if s == "WORKING": 
+                c = "bold white"
+                # Animated flash effect for working (simulated)
+                bar = "[cyan]█████[/][dim]░░░░░[/]" 
+            elif s == "THINKING":
+                c = "bold bright_magenta"
+                bar = "[bright_magenta]▓▓▓▓▓▓[/][dim]░░░░[/]"
+            elif s == "DONE": 
+                c = "green"
+                bar = "[green]██████████[/]"
+            elif s == "ERROR": 
+                c = "bold red"
+                bar = "[red]!!!!!!!!!![/]"
+            
+            task = info.get('task', 'Waiting...')
             if len(task) > 30: task = task[:27] + "..."
             
             table.add_row(
                 f"[{info.get('color', 'white')}]{name}[/]", 
                 info.get('skill', 'General').title(), 
                 f"[{c}]{s}[/]", 
-                task
+                bar,
+                f"[italic]{task}[/]"
             )
             
-        return Panel(table, title="🛠️  SUBAGENTS", border_style="white")
+        return Panel(table, title="🛠️  SUBAGENT FLEET", border_style="white", subtitle="[dim cyan]v2.1 Parallel Engine[/]")
 
 class ARCDashboardApp(App):
     """The Main Application Class."""

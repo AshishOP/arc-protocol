@@ -37,6 +37,13 @@ I want to plan Phase [N] from my roadmap.
 7. Create a detailed plan
    - 3-5 atomic tasks (each can be done independently)
    - Clear file paths for each task
+   - **Delegation Matrix:** For each task, define which subagent is assigned:
+     | Task Stage | Primary Agent | Subagent (Delegated) | Skill Used |
+     | :--- | :--- | :--- | :--- |
+     | Research | [Subagent] | Alpha | Researcher |
+     | Boilerplate | [Subagent] | Beta | Coder |
+     | Implementation | Main | - | - |
+     | Security Audit | [Subagent] | Gamma | Auditor |
    - Specific implementation steps
    - Verification method for each task
    - Git commit message template

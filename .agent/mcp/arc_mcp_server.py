@@ -122,13 +122,24 @@ class MCPServer:
                         "agent_id": {"type": "string", "description": "Unique ID for this background agent (e.g., 'Stylist', 'Refactorer')"},
                         "task": {"type": "string", "description": "Detailed task description for the background agent"},
                         "model": {"type": "string", "description": "Optional: AI model to use (default: gemini-1.5-flash)"},
-                        "skill": {"type": "string", "description": "Optional: Skill to inject (researcher, coder, auditor, architect, debugger). Default: general"}
+                        "skill": {"type": "string", "description": "Optional: Skill to inject (researcher, coder, auditor, architect, debugger). Default: general"},
+                        "extra_context_files": {"type": "array", "items": {"type": "string"}, "description": "Optional: List of file paths to provide as context to the subagent"}
                     },
                     "required": ["agent_id", "task"]
                 }
             }
         }
-        self.workspace = os.getcwd()
+        # Absolute path resolution: use the script's location to find project root
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        # .agent/mcp is 2 levels deep from project root
+        self.workspace = os.path.abspath(os.path.join(script_dir, "..", ".."))
+
+    def validate_path(self, path):
+        """Ensure path is within workspace boundaries."""
+        full_path = os.path.abspath(os.path.join(self.workspace, path))
+        if not full_path.startswith(self.workspace):
+            raise Exception(f"Security Violation: Path {path} is outside the workspace.")
+        return full_path
 
     def handle_initialize(self, params):
         return {
@@ -170,20 +181,20 @@ class MCPServer:
             return {"isError": True, "content": [{"type": "text", "text": str(e)}]}
 
     def read_file(self, path):
-        full_path = os.path.join(self.workspace, path)
+        full_path = self.validate_path(path)
         with open(full_path, 'r') as f:
             content = f.read()
         return {"content": [{"type": "text", "text": content}]}
 
     def write_file(self, path, content):
-        full_path = os.path.join(self.workspace, path)
+        full_path = self.validate_path(path)
         os.makedirs(os.path.dirname(full_path), exist_ok=True)
         with open(full_path, 'w') as f:
             f.write(content)
         return {"content": [{"type": "text", "text": f"Written to {path}"}]}
 
     def list_dir(self, path):
-        full_path = os.path.join(self.workspace, path)
+        full_path = self.validate_path(path)
         items = os.listdir(full_path)
         return {"content": [{"type": "text", "text": "\n".join(items)}]}
 
@@ -219,16 +230,15 @@ class MCPServer:
         import subprocess
         agent_id = args.get("agent_id")
         task = args.get("task")
-        # Use env var for default, fallback to flash
         default_model = os.environ.get("GEMINI_MODEL", "flash")
         model = args.get("model", default_model)
         skill = args.get("skill", "general")
+        extra_files = ",".join(args.get("extra_context_files", []))
         
         script_path = os.path.join(self.workspace, ".agent", "workers", "background_agent.py")
         
-        # Start the background agent process
         subprocess.Popen(
-            [sys.executable, script_path, agent_id, task, model, skill],
+            [sys.executable, script_path, agent_id, task, model, skill, extra_files],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             start_new_session=True

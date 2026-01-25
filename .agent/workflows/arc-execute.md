@@ -24,22 +24,22 @@ Execute Phase [N] from .arc/planning/phase-[N]-PLAN.md
 2. Read the phase plan from `.arc/planning/phase-[N]-PLAN.md`
 3. Show me the tasks
 4. **Track session start time**
-5. Execute tasks ONE AT A TIME or DELEGATE:
-   - **Update Dashboard**: Run `./venv/bin/python3 .agent/dashboard/update.py agent="Executor" status="WORKING" task="[Task Name]"`
-   - **Parallel Delegation**: If a task is tactical (boilerplate, research, audit), use `arc_spawn_agent` to delegate it to a subagent using the `flash` model.
-   - **Assume Role**: If doing the task yourself, state: "Assuming [Skill Name] Subagent role."
-   - Do the task
-   - **Monitor Subagents**: Keep an eye on the dashboard logs for subagent completion.
-   - **Update CONTRACTS.md** if you create any new:
-     - API endpoints
-     - Data models
-     - Environment variables
-     - Components
-   - Run verification
-   - **Dashboard Log**: Update dashboard with current task results.
-   - Show me the results
-   - Git commit with message from plan
-   - Wait for my confirmation before next task
+5. Execute tasks ONE AT A TIME with **Parallel Orchestration**:
+   - **Force Delegation Audit:** For each task, the Main Agent MUST answer: *"Can a subagent do the research, boilerplate, or auditing for this?"*
+   - **Mandatory Delegation:** Use `arc_spawn_agent` to delegate tactical parts (boilerplates, documentation, data types) to specialized subagents.
+   - **Proactive Auditing:** For every task involving implementation, spawn an `Auditor` subagent in parallel to review the code for security and contract compliance.
+   - **Strategic Integration:** While subagents are `WORKING`, the Main Agent focuses on high-level orchestration, state management, and the next strategic task.
+   - **Integration and Sign-off:** For every delegated task:
+     1.  Read the subagent's log in `.arc/archive/subagent_logs/`.
+     2.  Verify the output for contract compliance (CONTRACTS.md).
+     3.  Integrate the code/research into the main repo.
+     4.  Run a final manual/automated check.
+     5.  **Log Integration:** `update.py log="Integrated [Subagent ID]'s work into [File Path]"`
+   - **Update CONTRACTS.md** for all changes:
+     - API endpoints, Data models, Env vars, Components.
+   - Run verification.
+   - **Git Commit:** Use message from plan and commit after EACH task.
+   - Wait for user confirmation before next task.
 
 6. After each task:
    - **Update metrics**: Run `./venv/bin/python3 .agent/dashboard/update.py tasks_completed=[N]` where N increments

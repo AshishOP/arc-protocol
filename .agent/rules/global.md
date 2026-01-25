@@ -17,6 +17,14 @@ Before starting any task, check the `.agent/skills/` directory:
 | **Performance** | `antigravity-performance` | When optimizing React, Next.js, or API response times. |
 | **Security** | `security-auditor` | Before committing any code involving auth, secrets, or network. |
 
+## 🛰️ Non-Blocking Orchestration Protocol
+
+To maintain peak efficiency, the Orchestrator (Cortex) MUST follow these parallel work rules:
+
+1. **Supervisor-Worker Separation**: Once a subagent is spawned via `arc_spawn_agent`, you **must not wait** for it to finish before addressing other tasks. Proactively propose parallel work to the user.
+2. **Heartbeat Monitoring**: Use the Dashboard and `arc_status` to monitor workers in the background. Avoid making subagent output a synchronous blocker.
+3. **The 50/50 Balance**: Orchestrator handles 50% complex logic/integration; Subagents handle 50% tactical/boilerplate/research.
+
 ## 🚥 Interaction Rules
 
 1. **Dashboard First (Mandatory)**: Before starting any major thinking block or tool execution, update the dashboard using `.agent/dashboard/update.py`.

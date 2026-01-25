@@ -22,11 +22,12 @@ ARC_DIR = BASE_DIR / ".arc"
 STATE_FILE = ARC_DIR / "arc_workflow_state.json"
 
 class BackgroundAgent:
-    def __init__(self, agent_id, task, model="gemini-1.5-flash", skill="general"):
+    def __init__(self, agent_id, task, model="gemini-1.5-flash", skill="general", extra_files=""):
         self.agent_id = agent_id
         self.task = task
         self.model = model
         self.skill = skill
+        self.extra_files = extra_files.split(",") if extra_files else []
         self.workspace = str(BASE_DIR)
         ARC_DIR.mkdir(parents=True, exist_ok=True)
         
@@ -94,11 +95,20 @@ class BackgroundAgent:
         """Loads critical project context to ensure the subagent isn't blind."""
         context = []
         
-        # 1. Load Specific Skill Definition
-        skill_file = SCRIPT_DIR.parent / "skills" / "definitions" / f"{self.skill}.md"
-        if skill_file.exists():
-            context.append(f"## ACTIVE SKILL: {self.skill.upper()}\n{skill_file.read_text()}\n")
-        else:
+        # 1. Load Specific Skill Definition (Search multiple locations)
+        paths = [
+            SCRIPT_DIR.parent / "skills" / "definitions" / f"{self.skill}.md",
+            SCRIPT_DIR.parent / "skills" / self.skill / "SKILL.md",
+        ]
+        
+        found = False
+        for p in paths:
+            if p.exists():
+                context.append(f"## ACTIVE SKILL: {self.skill.upper()}\n{p.read_text()}\n")
+                found = True
+                break
+        
+        if not found:
             # Fallback to general manifesto if skill not found
             manifest_file = SCRIPT_DIR.parent / "rules" / "SUBAGENT_MANIFEST.md"
             if manifest_file.exists():
@@ -116,7 +126,15 @@ class BackgroundAgent:
             if contracts_file.exists():
                 context.append(f"## CONTRACTS (STRICT COMPLIANCE)\n{contracts_file.read_text()}\n")
             
-        # 3. Current Session State (Single Source of Truth)
+        # 3. Extra Context Files (Injected by Orchestrator)
+        if hasattr(self, 'extra_files') and self.extra_files:
+            context.append("## TARGET FILE CONTEXT\n")
+            for fpath in self.extra_files:
+                full_fpath = BASE_DIR / fpath
+                if full_fpath.exists() and full_fpath.is_file():
+                    context.append(f"### File: {fpath}\n{full_fpath.read_text()}\n")
+
+        # 4. Current Session State (Single Source of Truth)
         state_md = ARC_DIR / "STATE.md"
         if state_md.exists():
             context.append(f"## CURRENT SESSION STATE\n{state_md.read_text()}\n")
@@ -142,12 +160,17 @@ class BackgroundAgent:
             # Create a rich prompt
             full_prompt = (
                 f"You are a sub-agent named {self.agent_id} working on the ARC Protocol.\n"
-                f"You have been assigned the SKILL: {self.skill.upper()}\n"
-                f"Here is your context:\n\n"
+                f"You have been assigned the SKILL: {self.skill.upper()}\n\n"
+                f"### SAFETY PROTOCOLS (MANDATORY):\n"
+                f"1. NEVER delete files or directories unless explicitly told in the TASK.\n"
+                f"2. NEVER modify files outside the workspace directory: {self.workspace}\n"
+                f"3. NEVER change ownership or permissions of system files.\n"
+                f"4. If you are unsure, provide the code as a BLOCK in a markdown report instead of writing to disk.\n\n"
+                f"Here is your project context:\n\n"
                 f"{project_context}\n\n"
                 f"--- END OF CONTEXT ---\n\n"
                 f"YOUR TASK:\n{self.task}\n\n"
-                f"Perform the task using your SKILL."
+                f"Perform the task using your SKILL. Be professional, direct, and adhere to all contracts."
             )
 
             # 2. Ask Gemini
@@ -209,6 +232,7 @@ if __name__ == "__main__":
     default_model = os.environ.get("GEMINI_MODEL", "flash")
     model = sys.argv[3] if len(sys.argv) > 3 else default_model
     skill = sys.argv[4] if len(sys.argv) > 4 else "general"
+    extra_files = sys.argv[5] if len(sys.argv) > 5 else ""
         
-    agent = BackgroundAgent(agent_id, task, model, skill)
+    agent = BackgroundAgent(agent_id, task, model, skill, extra_files)
     agent.run()

@@ -6,10 +6,11 @@ description: Orchestrate true parallel subagents using the ARC Bridge
 
 > **Modern ARC Architecture:** Unlike sequential AI chats, this system uses **True Parallel Processes**. The Main Agent acts as the **Orchestrator (Cortex)**, spawning specialized sub-processes to handle tactical tasks.
 
-## 🛡️ The Rule of Two
-To avoid API rate limits and context fragmentation, follow the **Rule of Two**:
-- **1 Main Agent** (Orchestrator - high reasoning)
-- **Max 2 Subagents** (Workers - tactical/fast)
+## 🛡️ The Rule of Two & The Orchestrator Discipline
+ARC is not just about speed; it's about **Disciplined Autonomy**.
+- **The 50/50 Balance:** The Main Agent (Orchestrator) and Subagents split the workload 50/50. While the Main Agent handles complex logic and integration, subagents must be used for at least half of the tactical load (boilerplate, research, auditing) to maintain parallel efficiency.
+- **Rule of Two:** Max 2 Subagents active simultaneously to prevent context fragmentation.
+- **Parallel-First:** If a task can be parallelized, it MUST be. The Orchestrator never waits idle for a bot; they move to the next strategic analysis.
 
 ## 0. Dashboard Initialization
 - Ensure `./dash` is running in a separate terminal.
