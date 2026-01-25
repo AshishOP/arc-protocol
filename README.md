@@ -10,6 +10,8 @@
    ANALYZE. RUN. CONFIRM.
 ```
 
+![ARC Dashboard](assets/Dashboard.png)
+
 > **Why I Built This:**
 > I'm a developer, not a "Prompt Engineer." I got tired of AI writing code that broke two days later because it forgot my file structure.
 >
@@ -20,7 +22,7 @@
 ## ⚡ Quick Start
 
 ### 1. Installation
-You need Python 3.10+ and Node.js 18+. No API Key required (we use your Google account).
+You need **Python 3.10+** (for the Core Logic) and **Node.js 18+** (for the Gemini Auth Bridge). No API Key required (we use your Google account).
 
 ```bash
 # 1. Initialize the environment
@@ -89,6 +91,7 @@ We use specific trigger words to switch modes.
 ## 📂 Documentation
 *   **[How It Works (Deep Dive)](HOW_IT_WORKS.md)**: The internal mechanics of MCP and Gemini.
 *   **[Contracts & Rules](.arc/CONTRACTS.md)**: How we enforce code quality.
+*   **[The Toolbox](docs/TOOLS.md)**: The "Power Tools" behind the scenes (Enforcer, Cartographer, etc.).
 
 ---
 *Open Source. MIT License.*
