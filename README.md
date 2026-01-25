@@ -12,6 +12,16 @@
 
 ![ARC Dashboard](assets/Dashboard.png)
 
+## 🧩 What is ARC?
+ARC is a system that prevents AI-assisted coding from becoming sloppy. In simpler terms: it's a local development workflow that lets multiple AI agents work together to build a project without losing the "big picture."
+
+Most AI tools just "wing it" by looking at one file at a time and hoping for the best. ARC is different. It’s a coordination layer that forces the AI to work like a pro. It breaks the job down: it **Analyzes** your whole codebase, **Runs** the task using specialized "expert" agents (like a Researcher, a Coder, and an Auditor), and **Confirms** that everything actually works before it calls it a day. 
+
+It’s not magic—it’s just a strict set of guardrails that keep your AI focused and your code clean.
+
+---
+
+
 > **Why I Built This:**
 > I'm a developer, not a "Prompt Engineer." I got tired of AI writing code that broke two days later because it forgot my file structure.
 >
