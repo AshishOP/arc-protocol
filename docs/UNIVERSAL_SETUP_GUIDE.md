@@ -54,8 +54,6 @@ To let your AI editor (Cursor/Windsurf/Claude) control the agents, you need to t
 ```
 *(Replace `/ABSOLUTE/PATH/TO/...` with the real path. You can find it by typing `pwd` in your terminal).*
 
-![Setup Example](../assets/opencode.png)
-
 ## 4. Launch the Dashboard
 
 Open a **NEW, SEPARATE terminal window**. Keep your previous one for general commands, but dedicate this new one solely to the dashboard. This is your "Mission Control" screen.
