@@ -39,6 +39,13 @@ gemini login
 
 ---
 
+> 💡 **A Quick Tip on Slash-Commands:**
+> Don't reach for your terminal when you see things like `/arc-new` or `/arc-plan`. These aren't shell scripts; they're **trigger phrases** for your AI.
+>
+> Just type them into your chat sidebar (in Claude, Windsurf, or Antigravity) once you've connected ARC. Your AI sees the slash-command, grabs the right tool from the protocol, and starts the automation for you.
+
+---
+
 ## 🏎️ Tutorial: Build a To-Do App in 5 Minutes
 
 See it in action. Open your AI editor (Claude/Windsurf/Antigravity) and type:
