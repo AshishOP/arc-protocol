@@ -35,7 +35,7 @@ description: Show help and available ARC commands
 
 ## The Multi-Agent System
 
-ARC v2.0 introduces **True Parallelism** with specialized subagents.
+ARC v2.1 introduces **True Parallelism** with specialized subagents.
 
 ### Key Concepts:
 - **Orchestrator (Main AI):** Manages the workflow, makes strategic decisions, and delegates tasks.

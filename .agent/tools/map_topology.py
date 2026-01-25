@@ -44,7 +44,7 @@ def get_mermaid_topology(root_dir):
 
     # Trace imports for basic edges
     # This is expensive, so we just do a few key files for demonstration
-    # In v2.0 real version we would parse all files
+    # In this version we parse major files
     
     return "\n".join(mermaid)
 

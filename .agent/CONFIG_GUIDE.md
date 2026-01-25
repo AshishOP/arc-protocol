@@ -72,4 +72,4 @@ Always keep the ARC Dashboard (`./dash`) open in a separate panel. It is the onl
 - **Paths are wrong?** Ensure you use **Absolute Paths** in your MCP configuration.
 
 ---
-*ARC Protocol v2.0 — Structured Autonomy.*
+*ARC Protocol v2.1 — Structured Autonomy.*

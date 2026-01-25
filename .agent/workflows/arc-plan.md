@@ -40,10 +40,10 @@ I want to plan Phase [N] from my roadmap.
    - **Delegation Matrix:** For each task, define which subagent is assigned:
      | Task Stage | Primary Agent | Subagent (Delegated) | Skill Used |
      | :--- | :--- | :--- | :--- |
-     | Research | [Subagent] | Alpha | Researcher |
-     | Boilerplate | [Subagent] | Beta | Coder |
+     | Research | [Subagent] | Research-Agent | Researcher |
+     | Boilerplate | [Subagent] | Build-Agent | Coder |
      | Implementation | Main | - | - |
-     | Security Audit | [Subagent] | Gamma | Auditor |
+     | Security Audit | [Subagent] | Audit-Agent | Auditor |
    - Specific implementation steps
    - Verification method for each task
    - Git commit message template

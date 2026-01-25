@@ -39,7 +39,8 @@ def parse_contracts(contract_file):
             continue
             
         if line.startswith("- `") and ":" in line and current_model:
-            parts = re.findall(r"`(\w+)`: `(\w+)`", line)
+            # Support both `field`: `Type` and field: Type
+            parts = re.findall(r"[`]?(\w+)[`]?:\s*[`]?(\w+)[`]?", line)
             if parts:
                 models[current_model].append(parts[0])
 

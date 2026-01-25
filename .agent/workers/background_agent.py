@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ARC Protocol - Background AI Agent
-Implementing TRUE PARALLELISM within Antigravity.
+Implementing TRUE PARALLELISM within ARC Protocol.
 
 This script acts as a secondary AI agent that works in the background.
 It can be spawned by the main agent to perform tasks independently.

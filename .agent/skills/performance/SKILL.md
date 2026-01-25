@@ -1,6 +1,6 @@
 ---
 name: Performance Optimizer
-description: Optimized for Next.js and React performance based on Antigravity standards.
+description: Optimized for Next.js and React performance based on ARC standards.
 ---
 
 # Visual Excellence Skill

@@ -97,19 +97,18 @@ class AgentTable(Static):
 
     def render(self):
         table = Table(expand=True, show_header=True, header_style="bold cyan", box=None, padding=(0, 1))
-        table.add_column("Agent", width=10)
-        table.add_column("Skill", width=12)
+        table.add_column("Agent", width=14)
         table.add_column("Status", width=10)
         table.add_column("Progress", width=12)
         table.add_column("Activity")
 
         # Define default fleet
         default_fleet = {
-            "Alpha": {"skill": "researcher", "color": "magenta"},
-            "Beta": {"skill": "coder", "color": "green"},
-            "Gamma": {"skill": "auditor", "color": "red"},
-            "Delta": {"skill": "architect", "color": "blue"},
-            "Epsilon": {"skill": "debugger", "color": "yellow"}
+            "Research-Agent": {"skill": "researcher", "color": "magenta"},
+            "Build-Agent": {"skill": "coder", "color": "green"},
+            "Audit-Agent": {"skill": "auditor", "color": "red"},
+            "Architect-Agent": {"skill": "architect", "color": "blue"},
+            "Debug-Agent": {"skill": "debugger", "color": "yellow"}
         }
         
         # Merge live data
@@ -145,7 +144,6 @@ class AgentTable(Static):
             
             table.add_row(
                 f"[{info.get('color', 'white')}]{name}[/]", 
-                info.get('skill', 'General').title(), 
                 f"[{c}]{s}[/]", 
                 bar,
                 f"[italic]{task}[/]"

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import sys
 import subprocess
@@ -35,12 +36,17 @@ def check_dependencies():
             print(f"  \033[91m[✗]\033[0m {name} NOT detected.")
             
     if "gemini" in missing:
-        print("\033[93m[!] Gemini CLI missing. Attempting auto-install...\033[0m")
-        try:
-            subprocess.run("npm install -g @google/generative-ai", shell=True, check=True)
-            missing.remove("gemini")
-        except:
-            print("\033[91m[ERROR] Failed to install Gemini CLI. Please run 'npm install -g @google/generative-ai' manually.\033[0m")
+        if "npm" in missing:
+            print("\033[91m[!] Node.js and npm are required to run the Gemini CLI.\033[0m")
+            print("    1. Install Node.js v18+ from https://nodejs.org/")
+            print("    2. Run 'npm install -g @google/generative-ai'")
+        else:
+            print("\033[93m[!] Gemini CLI missing. Attempting auto-install...\033[0m")
+            try:
+                subprocess.run("npm install -g @google/generative-ai", shell=True, check=True)
+                missing.remove("gemini")
+            except:
+                print("\033[91m[ERROR] Failed to install Gemini CLI. Please run 'npm install -g @google/generative-ai' manually.\033[0m")
 
     return len(missing) == 0
 
@@ -112,9 +118,18 @@ def main():
         print("  \033[92m[+]\033[0m Created dash.bat (Windows)")
     else:
         with open("dash", "w") as f:
-            f.write(f"#!/usr/bin/env bash\n\"{os.path.abspath(venv_python)}\" \"{os.path.abspath(monitor_script)}\" \"$@\"")
+            f.write("#!/bin/bash\n")
+            f.write("# Universal Dash Launcher\n")
+            f.write("SCRIPT_DIR=\"$( cd \"$( dirname \"${BASH_SOURCE[0]}\" )\" &> /dev/null && pwd )\"\n")
+            f.write("VENV_PYTHON=\"$SCRIPT_DIR/venv/bin/python\"\n")
+            f.write("MONITOR_SCRIPT=\"$SCRIPT_DIR/.agent/dashboard/monitor.py\"\n\n")
+            f.write("if [ ! -f \"$VENV_PYTHON\" ]; then\n")
+            f.write("    echo \"❌ Virtual Environment not found at $VENV_PYTHON\"\n")
+            f.write("    exit 1\n")
+            f.write("fi\n\n")
+            f.write("\"$VENV_PYTHON\" \"$MONITOR_SCRIPT\" \"$@\"\n")
         os.chmod("dash", 0o755)
-        print("  \033[92m[+]\033[0m Created dash (Unix/Mac)")
+        print("  \033[92m[+]\033[0m Created dash (Unix/Mac Portable)")
 
     print("\n\033[92m[SUCCESS] ARC Protocol v2.1 Ready.\033[0m")
     print("\033[94m---------------------------------------------------\033[0m")

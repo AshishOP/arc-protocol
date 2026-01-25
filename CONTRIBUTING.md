@@ -1,30 +1,28 @@
-# Contributing to ARC Protocol
+# Contributing
 
-We welcome contributions to make the ARC Protocol the most disciplined and powerful AI workflow system in the world.
+We want this tool to be the best "Parallel Agent" runner available. Here is how you can help.
 
-## 🛠️ How You Can Help
+## Development Setup
 
-### 1. Adding New Skills
-The heart of ARC's subagents is the Skill System. You can contribute by adding new experts to `.agent/skills/definitions/`.
-- **Requirement:** Keep the context low (aim for ~500 tokens for the definition).
-- **Format:** Use Markdown with clear "Behavior Rules" and "Focus Areas".
+1.  **Environment:** We use a standard Python `venv`.
+    ```bash
+    python3 setup_arc.py
+    ```
 
-### 2. Refining Workflows
-If you find a slash command (e.g., `/arc-plan`) that loses context or needs better instructions, edit the files in `.agent/workflows/`.
+2.  **Running Locally:**
+    The dashboard is the main UI. Run it with `./dash`.
+    The tools logic lives in `.agent/tools/`.
 
-### 3. Improving the Dashboard
-The dashboard is built with **Textual** and **Rich**. Feel free to suggest better layouts, colors, or new metrics.
+## What we need help with
 
-## 📜 Principles
-- **Context First:** Every change must respect the "Load All Context" rule.
-- **Single Source of Truth:** Never hardcode data that should live in `.arc/CONTRACTS.md`.
-- **Concurrency Safety:** If modifying the state update logic, always use the `fcntl` locking mechanism built into `background_agent.py`.
+*   **Skills:** New personas for `.agent/skills/definitions/`. We need better specific roles (e.g., `sql-optimizer`, `accessibility-auditor`).
+*   **Workflows:** The logic in `.agent/workflows/` defines how the AI thinks. If you find a better prompt for `/arc-plan`, PR it.
+*   **Dashboard:** Improvements to `monitor.py` (Textual UI) to show more useful real-time data.
 
-## 🚀 Setup for Development
-1. Clone the repo.
-2. Create a venv: `python3 -m venv venv`.
-3. Install dependencies: `./venv/bin/pip install rich textual google-generativeai`.
-4. Run the dashboard: `./dash`.
+## Rules for PRs
 
----
-Thank you for helping us build the future of agentic engineering!
+1.  **No breaking the pathing.** Windows support is hard-won. Do not use hardcoded `/` separators. Use `os.path.join` or `pathlib`.
+2.  **No external API keys.** The system MUST rely on the `gemini` CLI for auth. Do not add `GEMINI_API_KEY` requirements.
+3.  **Keep it lightweight.** We want ARC to feel like a standard unix tool.
+
+Thanks for hacking with us.

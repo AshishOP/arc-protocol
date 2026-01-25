@@ -11,11 +11,9 @@ Before starting any task, check the `.agent/skills/` directory:
 
 ## 🧠 Selection Logic
 
-| Domain | Skill to Use | When to Invoke |
-| :--- | :--- | :--- |
-| **Project Management** | `gsd` | For any project planning, execution, or status updates. |
-| **Performance** | `antigravity-performance` | When optimizing React, Next.js, or API response times. |
-| **Security** | `security-auditor` | Before committing any code involving auth, secrets, or network. |
+| **Research & Planning** | `researcher` | For any project planning, docs, or status updates. |
+| **Coding & Perf** | `coder` | When writing features, fixing bugs, or optimizing code. |
+| **Security & Review** | `auditor` | Before committing any code involving auth, secrets, or network. |
 
 ## 🛰️ Non-Blocking Orchestration Protocol
 

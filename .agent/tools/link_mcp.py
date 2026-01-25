@@ -31,7 +31,7 @@ def link_mcp():
     mcp_config = {
         "mcpServers": {
             "arc-bridge": {
-                "command": "python3",
+                "command": sys.executable,
                 "args": [str(mcp_path)],
                 "env": {
                     "GEMINI_MODEL": "flash"

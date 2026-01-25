@@ -1,2 +1,12 @@
-#!/usr/bin/env bash
-./venv/bin/python .agent/dashboard/monitor.py
+#!/bin/bash
+# Universal Dash Launcher
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+VENV_PYTHON="$SCRIPT_DIR/venv/bin/python"
+MONITOR_SCRIPT="$SCRIPT_DIR/.agent/dashboard/monitor.py"
+
+if [ ! -f "$VENV_PYTHON" ]; then
+    echo "❌ Virtual Environment not found at $VENV_PYTHON"
+    exit 1
+fi
+
+"$VENV_PYTHON" "$MONITOR_SCRIPT" "$@"
