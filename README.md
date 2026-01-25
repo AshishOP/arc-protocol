@@ -73,7 +73,7 @@ See it in action. Open your AI editor (Claude/Windsurf/Antigravity) and type:
 4.  **"Verify it works. Run `/arc-verify`."**
     *   *AI acts:* It runs the script and confirms tasks can be added.
 
-**Result:** You have a working app, and you didn't write a single line of code.
+**Result:** You end up with a working app driven entirely through the ARC workflow, with all changes written and verified on disk.
 
 ---
 
