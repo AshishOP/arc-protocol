@@ -107,7 +107,7 @@ We use specific trigger words to switch modes.
 
 ## 📂 Documentation
 *   **[How It Works (Deep Dive)](HOW_IT_WORKS.md)**: The internal mechanics of MCP and Gemini.
-*   **[Contracts & Rules](.arc/CONTRACTS.md)**: How we enforce code quality.
+*   **[Contracts & Rules](.arc/templates/CONTRACTS.md)**: How we enforce code quality.
 *   **[The Toolbox](docs/TOOLS.md)**: The "Power Tools" behind the scenes (Enforcer, Cartographer, etc.).
 
 ---
