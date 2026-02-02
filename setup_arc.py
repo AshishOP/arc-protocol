@@ -29,7 +29,8 @@ def check_dependencies():
     print("\033[94m[*] Checking System Dependencies...\033[0m")
     for name, cmd in deps.items():
         try:
-            subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+            # Security fix: Avoid shell=True
+            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
             print(f"  \033[92m[✓]\033[0m {name} detected.")
         except:
             missing.append(name)
@@ -43,7 +44,8 @@ def check_dependencies():
         else:
             print("\033[93m[!] Gemini CLI missing. Attempting auto-install...\033[0m")
             try:
-                subprocess.run("npm install -g @google/generative-ai", shell=True, check=True)
+                # Security fix: Avoid shell=True
+                subprocess.run(["npm", "install", "-g", "@google/generative-ai"], check=True)
                 missing.remove("gemini")
             except:
                 print("\033[91m[ERROR] Failed to install Gemini CLI. Please run 'npm install -g @google/generative-ai' manually.\033[0m")
@@ -57,7 +59,10 @@ def check_auth():
     # We can try to list models as a test.
     try:
         # If this fails, the user likely isn't logged in.
-        subprocess.check_output("gemini models", shell=True, stderr=subprocess.STDOUT)
+    try:
+        # If this fails, the user likely isn't logged in.
+        # Security fix: Avoid shell=True
+        subprocess.check_output(["gemini", "models"], stderr=subprocess.STDOUT)
         print("  \033[92m[✓]\033[0m Gemini authenticated.")
         return True
     except:
@@ -128,7 +133,7 @@ def main():
             f.write("    exit 1\n")
             f.write("fi\n\n")
             f.write("\"$VENV_PYTHON\" \"$MONITOR_SCRIPT\" \"$@\"\n")
-        os.chmod("dash", 0o755)
+        os.chmod("dash", 0o700) # Security fix: Restrict to user only
         print("  \033[92m[+]\033[0m Created dash (Unix/Mac Portable)")
 
     print("\n\033[92m[SUCCESS] ARC Protocol v2.1 Ready.\033[0m")

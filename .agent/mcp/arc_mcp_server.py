@@ -11,6 +11,8 @@ Based on the MCP specification: https://modelcontextprotocol.io
 import sys
 import json
 import os
+import shlex
+import re
 
 # MCP Protocol implementation
 class MCPServer:
@@ -200,8 +202,13 @@ class MCPServer:
 
     def exec_command(self, command):
         import subprocess
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, cwd=self.workspace)
-        output = result.stdout + result.stderr
+        # Security fix: Use shlex to parse command and avoid shell=True
+        try:
+            args = shlex.split(command)
+            result = subprocess.run(args, capture_output=True, text=True, cwd=self.workspace, check=False)
+            output = result.stdout + result.stderr
+        except Exception as e:
+            output = f"Execution failed: {str(e)}"
         return {"content": [{"type": "text", "text": output}]}
 
     def update_dashboard(self, args):
@@ -237,6 +244,10 @@ class MCPServer:
         
         script_path = os.path.join(self.workspace, ".agent", "workers", "background_agent.py")
         
+        # Security fix: Sanitize inputs to prevent tainted data usage
+        if not re.match(r'^[a-zA-Z0-9_\-]+$', agent_id):
+            return {"isError": True, "content": [{"type": "text", "text": "Invalid agent_id. Use alphanumerics only."}]}
+            
         subprocess.Popen(
             [sys.executable, script_path, agent_id, task, model, skill, extra_files],
             stdout=subprocess.DEVNULL,
